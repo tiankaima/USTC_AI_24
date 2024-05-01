@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.13)
+project(LAB1_ALPHA_BETA)
+set(CMAKE_CXX_STANDARD 23)
+set(SOURCE_FILES main.cpp)
+add_executable(LAB1_ALPHA_BETA ${SOURCE_FILES})
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
