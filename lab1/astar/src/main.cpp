@@ -2,6 +2,7 @@
 #include <vector>
 #include <format>
 #include <fstream>
+#include <algorithm>
 
 #define PLANE 0
 #define BLOCK 1
@@ -12,11 +13,8 @@
 using MapRow = std::vector<int>;
 using Map = std::vector<MapRow>;
 using Pos = std::pair<int, int>;
-using Status = std::tuple<Pos, int, int, std::string>; // (pos, step, health, steps_str)
+using Status = std::tuple<Pos, int, int, std::string>; // (pos, health, step, steps_str)
 using NextMove = std::pair<std::string, Pos>; // (status, step_str)
-using NextMoves = std::vector<NextMove>;
-
-using HandleResult = std::optional<std::pair<int, std::string>>;
 
 std::pair<int, int> size(const Map &map) {
     return {map.size(), map[0].size()};
@@ -38,56 +36,80 @@ Pos operator+(const Pos &lhs, const Pos &rhs) {
     return {lhs.first + rhs.first, lhs.second + rhs.second};
 }
 
-HandleResult handle_map(const Map &map, int T) {
+bool pos_health_eq(const Status &lhs, const Status &rhs) {
+    return std::get<0>(lhs) == std::get<0>(rhs) && std::get<1>(lhs) == std::get<1>(rhs);
+}
+
+std::optional<std::pair<int, std::string>> handle_map(const Map &map, int T) {
     auto goal = find(map, GOAL);
     auto h = [goal](const Pos &p) { return norm1(p, goal); };
-    auto f = [h](const Status &s) { return std::get<1>(s) + h(std::get<0>(s)); };
+    auto f = [h](const Status &s) { return std::get<2>(s) + h(std::get<0>(s)); };
 
     auto filter = [map](const Pos &p) {
         return p.first >= 0 && p.first < size(map).first && p.second >= 0 && p.second < size(map).second;
     };
 
     auto next = [filter](const Pos &p) {
-        static NextMoves next_moves = {{"R", {0,  1}},
-                                       {"L", {0,  -1}},
-                                       {"U", {-1, 0}},
-                                       {"D", {1,  0}},};
+        static std::vector<NextMove> next_moves = {{"R", {0,  1}},
+                                                   {"L", {0,  -1}},
+                                                   {"U", {-1, 0}},
+                                                   {"D", {1,  0}},};
 
-        NextMoves result;
+        std::vector<NextMove> result;
 
         for (const auto &next_move: next_moves) {
             if (auto pos = p + next_move.second; filter(pos)) {
-                result.push_back({next_move.first, pos});
+                result.emplace_back(next_move.first, pos);
             }
         }
 
         return result;
     };
 
-    auto cmp = [&](const Status &s1, const Status &s2) { return f(s1) > f(s2); };
+    auto cmp = [&](const Status &s1, const Status &s2) { return f(s1) < f(s2); };
 
-    std::priority_queue<Status, std::vector<Status>, decltype(cmp)> nodes(cmp);
-    std::vector<Pos> visited;
-    nodes.push({find(map, START), 0, T, ""});
-    while (!nodes.empty()) {
-        auto [pos, step, health, steps_str] = nodes.top();
-        nodes.pop();
+    std::vector<Status> frontiers;
+    std::vector<Status> visited;
+    frontiers.emplace_back(find(map, START), T, 0, "");
+    while (!frontiers.empty()) {
+        std::sort(frontiers.begin(), frontiers.end(), cmp);
+
+        auto cur = frontiers.front();
+        auto [pos, health, step, steps_str] = cur;
+        frontiers.erase(frontiers.begin());
+
         if (map[pos.first][pos.second] == GOAL)
             return {std::make_pair(step, steps_str)};
-        if (std::find(visited.begin(), visited.end(), pos) != visited.end())
-            continue;
-        visited.push_back(pos);
+
+        visited.push_back(cur);
 
         for (const auto &next_move: next(pos)) {
             auto next_pos = next_move.second;
             if (map[next_pos.first][next_pos.second] == BLOCK)
                 continue;
+
             int next_health = health - 1;
+            if (next_health < 0) continue;
+
             if (map[next_pos.first][next_pos.second] == SUPPLY)
                 next_health = T;
 
-            if (next_health >= 0)
-                nodes.push({next_pos, step + 1, next_health, steps_str + next_move.first});
+            Status next_status = {next_pos, next_health, step + 1, steps_str + next_move.first};
+
+            if (std::find_if(visited.begin(), visited.end(),
+                             [&](const Status &s) { return pos_health_eq(s, next_status); }) !=
+                visited.end())
+                continue;
+
+            if (auto it = std::find_if(frontiers.begin(), frontiers.end(),
+                                       [&](const Status &s) { return pos_health_eq(s, next_status); });
+                    it != frontiers.end()) {
+                if (std::get<2>(*it) > std::get<2>(next_status)) {
+                    *it = next_status;
+                }
+            } else {
+                frontiers.push_back(next_status);
+            }
         }
     }
 
