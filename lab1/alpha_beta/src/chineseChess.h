@@ -130,95 +130,6 @@ namespace ChineseChess {
         return result;
     }
 
-    constexpr Map<int> eval_map(const Type &type) {
-        switch (type) {
-            case Type::JU:
-                return {{
-                                {{-6, 5, -2, 4, 8, 8, 6, 6, 6, 6}},
-                                {{6, 8, 8, 9, 12, 11, 13, 8, 12, 8}},
-                                {{4, 6, 4, 4, 12, 11, 13, 7, 9, 7}},
-                                {{12, 12, 12, 12, 14, 14, 16, 14, 16, 13}},
-                                {{0, 0, 12, 14, 15, 15, 16, 16, 33, 14}},
-                                {{12, 12, 12, 12, 14, 14, 16, 14, 16, 13}},
-                                {{4, 6, 4, 4, 12, 11, 13, 7, 9, 7}},
-                                {{6, 8, 8, 9, 12, 11, 13, 8, 12, 8}},
-                                {{-6, 5, -2, 4, 8, 8, 6, 6, 6, 6}},
-                        }};
-            case Type::MA:
-                return {{
-                                {{0, -3, 5, 4, 2, 2, 5, 4, 2, 2}},
-                                {{-3, 2, 4, 6, 10, 12, 20, 10, 8, 2}},
-                                {{2, 4, 6, 10, 13, 11, 12, 11, 15, 2}},
-                                {{0, 5, 7, 7, 14, 15, 19, 15, 9, 8}},
-                                {{2, -10, 4, 10, 15, 16, 12, 11, 6, 2}},
-                                {{0, 5, 7, 7, 14, 15, 19, 15, 9, 8}},
-                                {{2, 4, 6, 10, 13, 11, 12, 11, 15, 2}},
-                                {{-3, 2, 4, 6, 10, 12, 20, 10, 8, 2}},
-                                {{0, -3, 5, 4, 2, 2, 5, 4, 2, 2}},
-                        }};
-            case Type::XIANG:
-                return {{
-                                {{0, 0, -2, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 3, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, -2, 0, 0, 0, 0, 0, 0, 0}},
-                        }};
-            case Type::SHI:
-                return {{
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 3, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                        }};
-            case Type::JIANG:
-                return {{
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{1, -8, -9, 0, 0, 0, 0, 0, 0, 0}},
-                                {{5, -8, -9, 0, 0, 0, 0, 0, 0, 0}},
-                                {{1, -8, -9, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-                        }};
-            case Type::PAO:
-                return {{
-                                {{0, 0, 1, 0, -1, 0, 0, 1, 2, 4}},
-                                {{0, 1, 0, 0, 0, 0, 3, 1, 2, 4}},
-                                {{1, 2, 4, 0, 3, 0, 3, 0, 0, 0}},
-                                {{3, 2, 3, 0, 0, 0, 2, -5, -4, -5}},
-                                {{3, 2, 5, 0, 4, 4, 4, -4, -7, -6}},
-                                {{3, 2, 3, 0, 0, 0, 2, -5, -4, -5}},
-                                {{1, 2, 4, 0, 3, 0, 3, 0, 0, 0}},
-                                {{0, 1, 0, 0, 0, 0, 3, 1, 2, 4}},
-                                {{0, 0, 1, 0, -1, 0, 0, 1, 2, 4}},
-                        }};
-            case Type::BING:
-                return {{
-                                {{0, 0, 0, -2, 3, 10, 20, 20, 20, 0}},
-                                {{0, 0, 0, 0, 0, 18, 27, 30, 30, 0}},
-                                {{0, 0, 0, -2, 4, 22, 30, 45, 50, 0}},
-                                {{0, 0, 0, 0, 0, 35, 40, 55, 65, 2}},
-                                {{0, 0, 0, 6, 7, 40, 42, 55, 70, 4}},
-                                {{0, 0, 0, 0, 0, 35, 40, 55, 65, 2}},
-                                {{0, 0, 0, -2, 4, 22, 30, 45, 50, 0}},
-                                {{0, 0, 0, 0, 0, 18, 27, 30, 30, 0}},
-                                {{0, 0, 0, -2, 3, 10, 20, 20, 20, 0}},
-                        }};
-        }
-    }
-
     constexpr std::vector<Pos> next_moves(const Board &board, const Pos &pos, const Type &type) {
         std::vector<Pos> result;
         switch (type) {
@@ -471,6 +382,22 @@ namespace ChineseChess {
         return result;
     }
 
+    constexpr std::vector<std::tuple<PType, Pos, Pos, Board>>
+    next_boards_full_detail(const Board &board, const bool is_red) {
+        std::vector<std::tuple<PType, Pos, Pos, Board>> result; // (piece, init_pos, next_pos, new_board)
+        auto pieces = filter_pieces(board, is_red);
+        for (auto &piece: pieces) {
+            auto moves = next_moves(board, piece.first, piece.second);
+            for (auto &move: moves) {
+                auto new_board = board;
+                new_board[piece.first.first][piece.first.second] = std::nullopt;
+                new_board[move.first][move.second] = board[piece.first.first][piece.first.second];
+                result.push_back({{piece.second, is_red}, piece.first, move, new_board});
+            }
+        }
+        return result;
+    }
+
     constexpr bool end_check(const Board &board) {
         int red_jiang = 0, black_jiang = 0;
         for (int i = 0; i < BOARD_SIZE_H; i++) {
@@ -486,6 +413,193 @@ namespace ChineseChess {
         }
         if (red_jiang > 1 || black_jiang > 1) throw std::runtime_error("Invalid board state");
         return red_jiang == 0 || black_jiang == 0;
+    }
+
+    constexpr Map<int> eval_map(const Type &type) {
+        switch (type) {
+            case Type::JU:
+                return {{
+                                {{-6, 5, -2, 4, 8, 8, 6, 6, 6, 6}},
+                                {{6, 8, 8, 9, 12, 11, 13, 8, 12, 8}},
+                                {{4, 6, 4, 4, 12, 11, 13, 7, 9, 7}},
+                                {{12, 12, 12, 12, 14, 14, 16, 14, 16, 13}},
+                                {{0, 0, 12, 14, 15, 15, 16, 16, 33, 14}},
+                                {{12, 12, 12, 12, 14, 14, 16, 14, 16, 13}},
+                                {{4, 6, 4, 4, 12, 11, 13, 7, 9, 7}},
+                                {{6, 8, 8, 9, 12, 11, 13, 8, 12, 8}},
+                                {{-6, 5, -2, 4, 8, 8, 6, 6, 6, 6}},
+                        }};
+            case Type::MA:
+                return {{
+                                {{0, -3, 5, 4, 2, 2, 5, 4, 2, 2}},
+                                {{-3, 2, 4, 6, 10, 12, 20, 10, 8, 2}},
+                                {{2, 4, 6, 10, 13, 11, 12, 11, 15, 2}},
+                                {{0, 5, 7, 7, 14, 15, 19, 15, 9, 8}},
+                                {{2, -10, 4, 10, 15, 16, 12, 11, 6, 2}},
+                                {{0, 5, 7, 7, 14, 15, 19, 15, 9, 8}},
+                                {{2, 4, 6, 10, 13, 11, 12, 11, 15, 2}},
+                                {{-3, 2, 4, 6, 10, 12, 20, 10, 8, 2}},
+                                {{0, -3, 5, 4, 2, 2, 5, 4, 2, 2}},
+                        }};
+            case Type::XIANG:
+                return {{
+                                {{0, 0, -2, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 3, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, -2, 0, 0, 0, 0, 0, 0, 0}},
+                        }};
+            case Type::SHI:
+                return {{
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 3, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                        }};
+            case Type::JIANG:
+                return {{
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{1, -8, -9, 0, 0, 0, 0, 0, 0, 0}},
+                                {{5, -8, -9, 0, 0, 0, 0, 0, 0, 0}},
+                                {{1, -8, -9, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                                {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+                        }};
+            case Type::PAO:
+                return {{
+                                {{0, 0, 1, 0, -1, 0, 0, 1, 2, 4}},
+                                {{0, 1, 0, 0, 0, 0, 3, 1, 2, 4}},
+                                {{1, 2, 4, 0, 3, 0, 3, 0, 0, 0}},
+                                {{3, 2, 3, 0, 0, 0, 2, -5, -4, -5}},
+                                {{3, 2, 5, 0, 4, 4, 4, -4, -7, -6}},
+                                {{3, 2, 3, 0, 0, 0, 2, -5, -4, -5}},
+                                {{1, 2, 4, 0, 3, 0, 3, 0, 0, 0}},
+                                {{0, 1, 0, 0, 0, 0, 3, 1, 2, 4}},
+                                {{0, 0, 1, 0, -1, 0, 0, 1, 2, 4}},
+                        }};
+            case Type::BING:
+                return {{
+                                {{0, 0, 0, -2, 3, 10, 20, 20, 20, 0}},
+                                {{0, 0, 0, 0, 0, 18, 27, 30, 30, 0}},
+                                {{0, 0, 0, -2, 4, 22, 30, 45, 50, 0}},
+                                {{0, 0, 0, 0, 0, 35, 40, 55, 65, 2}},
+                                {{0, 0, 0, 6, 7, 40, 42, 55, 70, 4}},
+                                {{0, 0, 0, 0, 0, 35, 40, 55, 65, 2}},
+                                {{0, 0, 0, -2, 4, 22, 30, 45, 50, 0}},
+                                {{0, 0, 0, 0, 0, 18, 27, 30, 30, 0}},
+                                {{0, 0, 0, -2, 3, 10, 20, 20, 20, 0}},
+                        }};
+        }
+    }
+
+    constexpr int piece_value(const Type &type) {
+        switch (type) {
+            case Type::JU:
+                return 500;
+            case Type::MA:
+                return 300;
+            case Type::XIANG:
+                return 30;
+            case Type::SHI:
+                return 10;
+            case Type::JIANG:
+                return 10000;
+            case Type::PAO:
+                return 300;
+            case Type::BING:
+                return 90;
+        }
+    }
+
+    constexpr int next_move_value(const Type &type) {
+        switch (type) {
+            case Type::JU:
+                return 500;
+            case Type::MA:
+                return 100;
+            case Type::JIANG:
+                return 10000;
+            case Type::PAO:
+                return 100;
+            case Type::BING:
+                return 20;
+            default:
+                return 0;
+
+        }
+    }
+
+    constexpr int total_piece_value(const Board &board, const bool is_red) {
+        int result = 0;
+        auto pieces = filter_pieces(board, is_red);
+        for (auto &piece: pieces) {
+            result += piece_value(piece.second);
+        }
+        return result;
+    }
+
+    constexpr int next_move_values(const Board &board, const bool is_red) {
+        int result = 0;
+        auto pieces = filter_pieces(board, is_red);
+        for (auto &piece: pieces) {
+            auto moves = next_moves(board, piece.first, piece.second);
+            for (auto &move: moves) {
+                // determine whether a piece is eaten:
+                if (auto piece_eaten = board[move.first][move.second]; piece_eaten.has_value()) {
+                    auto tmp = next_move_value(piece_eaten->first);
+                    // TODO: is it max or sum?
+                    result += tmp;
+                }
+            }
+        }
+        return result;
+    }
+
+    constexpr int total_piece_location_value(const Board &board, const bool is_red) {
+        int result = 0;
+        auto pieces = filter_pieces(board, is_red);
+        for (auto &piece: pieces) {
+            auto map = eval_map(piece.second);
+            result += map[piece.first.first][piece.first.second];
+        }
+        return result;
+    }
+
+    constexpr int score(const Board &board) {
+        return (total_piece_value(board, true) - total_piece_value(board, false)) +
+               (total_piece_location_value(board, true) - total_piece_location_value(board, false)) +
+               (next_move_values(board, true) - next_move_values(board, false));
+    }
+
+    constexpr std::optional<std::tuple<PType, Pos, Pos>>
+    which_move(const Board &board, const bool is_red, const int given_score) {
+        // evaluate all moves possible like in next_boards, and evaluate all board, return the move with the given score
+        auto pieces = filter_pieces(board, is_red);
+        for (auto &piece: pieces) {
+            auto moves = next_moves(board, piece.first, piece.second);
+            for (auto &move: moves) {
+                auto new_board = board;
+                new_board[piece.first.first][piece.first.second] = std::nullopt;
+                new_board[move.first][move.second] = board[piece.first.first][piece.first.second];
+                std::cout << "score: " << score(new_board) << std::endl;
+                if (given_score == score(new_board)) {
+                    return std::make_tuple(*board[piece.first.first][piece.first.second], piece.first, move);
+                }
+            }
+        }
+        return std::nullopt;
     }
 
 } // ChineseChess
