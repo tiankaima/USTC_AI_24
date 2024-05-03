@@ -398,7 +398,7 @@ namespace ChineseChess {
         return result;
     }
 
-    constexpr bool end_check(const Board &board) {
+    constexpr int end_check(const Board &board) {
         int red_jiang = 0, black_jiang = 0;
         for (int i = 0; i < BOARD_SIZE_H; i++) {
             for (int j = 0; j < BOARD_SIZE_W; j++) {
@@ -412,7 +412,10 @@ namespace ChineseChess {
             }
         }
         if (red_jiang > 1 || black_jiang > 1) throw std::runtime_error("Invalid board state");
-        return red_jiang == 0 || black_jiang == 0;
+//        return red_jiang == 0 || black_jiang == 0;
+        if (red_jiang == 0 && black_jiang == 1) return 0;
+        if (red_jiang == 1 && black_jiang == 0) return 1;
+        return -1;
     }
 
     constexpr Map<int> eval_map(const Type &type) {
@@ -559,7 +562,7 @@ namespace ChineseChess {
                 // determine whether a piece is eaten:
                 if (auto piece_eaten = board[move.first][move.second]; piece_eaten.has_value()) {
                     auto tmp = next_move_value(piece_eaten->first);
-                    // TODO: is it max or sum?
+                    // result = std::max(result, tmp);
                     result += tmp;
                 }
             }
@@ -578,9 +581,19 @@ namespace ChineseChess {
     }
 
     constexpr int score(const Board &board) {
+        switch (end_check(board)) {
+            case 0:
+                return std::numeric_limits<int>::min();
+            case 1:
+                return std::numeric_limits<int>::max();
+            default:
+                break;
+        }
+
         return (total_piece_value(board, true) - total_piece_value(board, false)) +
                (total_piece_location_value(board, true) - total_piece_location_value(board, false)) +
-               (next_move_values(board, true) - next_move_values(board, false));
+               (next_move_values(board, true) - next_move_values(board, false)) +
+               0;
     }
 
     constexpr std::optional<std::tuple<PType, Pos, Pos>>
