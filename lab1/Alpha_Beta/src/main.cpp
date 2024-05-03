@@ -24,14 +24,10 @@ std::ostream &operator<<(std::ostream &os, const Pos &pos) {
     return os;
 }
 
-#define MAX_DEPTH 1000000
+#define MAX_DEPTH 4
 
 int alpha_beta(const Board &cur, int depth, bool is_red, int alpha, int beta) { // NOLINT(*-no-recursion)
-    if (depth == MAX_DEPTH) {
-        return score(cur);
-    }
-
-    if (end_check(cur)) {
+    if (depth == MAX_DEPTH || end_check(cur) != -1) {
         return score(cur);
     }
 
