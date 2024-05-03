@@ -118,10 +118,10 @@ std::optional<std::pair<int, std::string>> handle_map(const Map &map, int T) {
 }
 
 int main() {
-    for (int i = 0; i <= 10; i++) {
-        auto input_filename = std::format("./input/input_{}.txt", i);
+    for (int index = 0; index <= 10; index++) {
+        auto input_filename = std::format("./input/input_{}.txt", index);
         std::cout << input_filename << std::endl;
-        auto output_filename = std::format("./output/output_{}.txt", i);
+        auto output_filename = std::format("./output/output_{}.txt", index);
         int M, N, T;
         auto input_file = std::ifstream(input_filename);
         auto output_file = std::ofstream(output_filename);
@@ -129,10 +129,11 @@ int main() {
 
         auto map = Map(M, MapRow(N));
         for (int j = 0; j < M; j++) {
-            for (int k = 0; k < N; k++) {
-                input_file >> map[j][k];
+            for (int i = 0; i < N; i++) {
+                input_file >> map[j][i];
             }
         }
+        input_file.close();
 
         auto result = handle_map(map, T);
         if (result.has_value()) {
